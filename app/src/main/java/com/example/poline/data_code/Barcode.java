@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 public class Barcode extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int MY_PERMISSION_STORAGE = 1;
@@ -14,6 +16,7 @@ public class Barcode extends AppCompatActivity {
     Button button;
     ImageView imageView;
 
+    BarcodeDetector detector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +25,16 @@ public class Barcode extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
         button = (Button) findViewById(R.id.button);
         imageView = (ImageView) findViewById(R.id.imageView);
+
+        //initialize Detector
+        detector = new BarcodeDetector.Builder(getApplicationContext())
+                .setBarcodeFormats(com.google.android.gms.vision.barcode.Barcode.DATA_MATRIX | com.google.android.gms.vision.barcode.Barcode.QR_CODE)
+                .build();
+
+        if(!detector.isOperational()){
+            textView.setText("Could not set up detector");
+        }
+
+        button.setOnClickListener();
     }
 }
